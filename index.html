@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kroeg der Kroegspelen 🍻</title>
+  <meta name="description" content="Alle drankspelletjes op één plek: klik op een spel en krijg direct de uitleg." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 font-size=%2280%22><text y=%22.9em%22>🍻</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Persistente topbalk -->
+  <header class="topbar" id="topbar">
+    <a href="#" class="brand" id="homeLink" onclick="goHome(); return false;">
+      <span class="brand-emoji">🍻</span>
+      <span class="brand-text">Kroeg der Kroegspelen</span>
+    </a>
+
+    <div class="topbar-actions">
+      <input
+        type="search"
+        id="searchInput"
+        class="search-input"
+        placeholder="Zoek een spel…"
+        oninput="onSearch(this.value)"
+      />
+      <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Wissel tussen Kroeg (donker) en Terras (licht)">🌙</button>
+      <button class="icon-btn" id="diceToggle" onclick="toggleDiceTray()" title="Open de gereedschapskist">🎲</button>
+    </div>
+  </header>
+
+  <!-- Floating gereedschapskist: dobbelstenen, kaart, munt -->
+  <div class="dice-tray" id="diceTray" hidden>
+    <div class="dice-tray-row">
+      <button class="tool-btn" onclick="rollDice()">🎲 Gooi dobbelsteen</button>
+      <div class="tool-result" id="diceResult">–</div>
+    </div>
+    <div class="dice-tray-row">
+      <button class="tool-btn" onclick="drawCard()">🃏 Trek kaart</button>
+      <div class="tool-result" id="cardResult">–</div>
+    </div>
+    <div class="dice-tray-row">
+      <button class="tool-btn" onclick="flipCoin()">🪙 Munt</button>
+      <div class="tool-result" id="coinResult">–</div>
+    </div>
+  </div>
+
+  <main id="app">
+
+    <!-- HOME VIEW -->
+    <section id="homeView">
+      <div class="hero">
+        <h1>Welkom bij de <span class="hero-highlight">Kroeg der Kroegspelen</span> 🍻</h1>
+        <p class="hero-sub">20 klassieke drankspelletjes, één plek. Klik op een spel voor de volledige uitleg — of laat het lot beslissen.</p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="spinTheBottle()">🍾 Spin de fles (kies random)</button>
+          <button class="btn btn-ghost" onclick="scrollToGrid()">Bekijk alle spellen ↓</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num" id="statCount">20</span><span class="stat-label">spelletjes</span></div>
+          <div class="stat"><span class="stat-num">2-15</span><span class="stat-label">spelers</span></div>
+          <div class="stat"><span class="stat-num">0</span><span class="stat-label">excuses om niet mee te doen</span></div>
+        </div>
+      </div>
+
+      <div class="bottle-overlay" id="bottleOverlay" hidden>
+        <div class="bottle-card">
+          <div class="bottle-emoji" id="bottleEmoji">🍾</div>
+          <div class="bottle-name" id="bottleName">…</div>
+          <div class="bottle-actions">
+            <button class="btn btn-primary" id="bottlePlayBtn">Speel dit spel!</button>
+            <button class="btn btn-ghost" onclick="closeBottle()">Sluiten</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters" id="filterBar"></div>
+
+      <div class="grid" id="gamesGrid"></div>
+
+      <p class="empty-state" id="emptyState" hidden>Geen spellen gevonden 🥲 probeer een andere zoekterm.</p>
+    </section>
+
+    <!-- DETAIL VIEW -->
+    <section id="detailView" hidden>
+      <button class="back-btn" onclick="goHome()">← Terug naar overzicht</button>
+
+      <article class="detail-card" id="detailCard"></article>
+
+      <div class="detail-nav">
+        <button class="btn btn-ghost" onclick="prevGame()">← Vorige</button>
+        <button class="btn btn-primary" onclick="randomGameFromDetail()">🍾 Verras me</button>
+        <button class="btn btn-ghost" onclick="nextGame()">Volgende →</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-proost">
+      <button class="proost-btn" onclick="proost()">🍻 PROOST!</button>
+      <span class="proost-count" id="proostCount"></span>
+    </div>
+    <p class="footer-small">Gemaakt met liefde (en een beetje research) — de uitleg is een startpunt, pas 'm gerust aan naar jouw huisregels.</p>
+  </footer>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="games.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
